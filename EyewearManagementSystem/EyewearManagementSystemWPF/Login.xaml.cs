@@ -28,35 +28,6 @@ namespace EyewearManagementSystemWPF
             InitializeComponent();
         }
 
-        private void btnContinue_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var main = new MainWindow();
-                main.Show();
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to open main window: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void btnShowStafLogin_Click(object sender, RoutedEventArgs e)
-        {
-            txtStatus.Text = string.Empty;
-            ActionPanel.Visibility = Visibility.Collapsed;
-            StaffPanel.Visibility = Visibility.Visible;
-            txtUsername.Focus();
-        }
-
-        private void btnBack_Click(object sender, RoutedEventArgs e)
-        {
-            txtStatus.Text = string.Empty;
-            StaffPanel.Visibility = Visibility.Collapsed;
-            ActionPanel.Visibility = Visibility.Visible;
-        }
-
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             txtStatus.Text = string.Empty;

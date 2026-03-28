@@ -20,9 +20,9 @@
     <!--Left-->
         <!--BackGround-->
         <Image Stretch="Fill"
-               Source="C:\Users\ADMIN\Documents\GitHub\EyewareManagementWPF\EyewearManagementSystem\EyewearManagementSystemWPF\assest/Login.png"/>
+               Source="/assest/Login.png"/>
         <!--Logo-->
-        <Image Source="C:\Users\ADMIN\Documents\GitHub\EyewareManagementWPF\EyewearManagementSystem\EyewearManagementSystemWPF\assest/LOGO.png"
+        <Image Source="/assest/LOGO.png"
                Width="150"
                HorizontalAlignment="Left"
                VerticalAlignment="Top"
@@ -31,13 +31,12 @@
         <!--Text-->
         <StackPanel Grid.Column="0"
             Orientation="Vertical">
-            <TextBlock
-        Foreground="White"
-        VerticalAlignment="Center"
-        HorizontalAlignment="Left"
-        FontSize="24"
-        FontWeight="Bold"
-        Margin="20,50,0,0">
+            <TextBlock  Foreground="White"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Margin="20,50,0,0">
                 <TextBlock.LayoutTransform>
                     <RotateTransform Angle="-90"/>
                 </TextBlock.LayoutTransform>
@@ -71,49 +70,21 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Welcome Back!"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Margin="0,0,0,12"
-                           HorizontalAlignment="Center"
-                           Foreground="#2C3E50"/>
+
 
                 <StackPanel Grid.Row="1"
                             HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
                             Width="260">
-                    <!--Action Panel-->
-                    <StackPanel x:Name="ActionPanel" VerticalAlignment="Center">
-                        <TextBlock Text="Continue as customer or sign in as staff" 
-                                   Foreground="Gray"
-                                   TextAlignment="Center"
-                                   Margin="0,0,0,12"
-                                   FontSize="13"/>
-                        <!--Continue as Customer-->
-                        <Border CornerRadius="8"
-                                BorderThickness="1"
-                                Background="#3B82F6"
-                                Height="36"
-                                Margin="0,4">
-                            <Button x:Name="btnContinue" 
-                                    Content="Continue as Customer"
-                                    Height="36"
-                                    BorderThickness="0"
-                                    Background="Transparent" Click="btnContinue_Click"/>
-                        </Border>
-                        <!--Staff Login-->
-                        <Border CornerRadius="8"
-                                Background="#3B82F6"
-                                Height="36">
-                            <Button x:Name="btnShowStafLogin"
-                                    Content="Staff Login"
-                                    Height="36"
-                                    Background="Transparent"
-                                    BorderThickness="0" Click="btnShowStafLogin_Click"/>
-                        </Border>
-                    </StackPanel>
-                    
+
+                    <TextBlock Text="Welcome Back!"
+                               FontSize="20"           
+                               FontWeight="Bold"           
+                               Margin="0,0,0,12"           
+                               HorizontalAlignment="Center"           
+                               Foreground="#2C3E50"/>
                     <!-- Staff Login Panel-->
-                    <StackPanel x:Name="StaffPanel" Visibility="Collapsed" Margin="0,6,0,0">
+                    <StackPanel x:Name="StaffPanel" Margin="0,6,0,0">
                         <!--Username-->
                         <TextBlock Text="Username" 
                                        FontSize="14"
@@ -141,12 +112,7 @@
                                          VerticalContentAlignment="Center"
                                          Background="#F5F5F5">
                         </PasswordBox>
-
-                        
-
-                        <StackPanel Orientation="Vertical"
-                                        HorizontalAlignment="Center">
-                            <Border CornerRadius="8"
+                        <Border CornerRadius="8"
                                     Background="#3B82F6"
                                     Width="220">
                                 <Button x:Name="btnLogin"
@@ -156,32 +122,13 @@
                                         Foreground="White"
                                         BorderThickness="0"/>
                             </Border>
-                            <Button x:Name="btnBack"
-                                    Content="Back"
-                                    FontSize="13"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Margin="0,5"
-                                    Click="btnBack_Click">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Foreground" Value="Gray"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value="#3B82F6"/>
-                                                <Setter Property="Background" Value="Transparent"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                        </StackPanel>
-                    </StackPanel>
-                    <TextBlock x:Name="txtStatus"
+                            <TextBlock x:Name="txtStatus"
                                    Foreground="Red"
                                    Margin="0,12,0,0"
                                    TextWrapping="Wrap"
                                    HorizontalAlignment="Center"/>
+                        
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </Border>
