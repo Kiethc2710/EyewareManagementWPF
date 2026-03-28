@@ -20,9 +20,9 @@
     <!--Left-->
         <!--BackGround-->
         <Image Stretch="Fill"
-               Source="C:\Users\ADMIN\Documents\GitHub\EyewareManagementWPF\EyewearManagementSystem\EyewearManagementSystemWPF\assest/Login.png"/>
+               Source="/assest/Login.png"/>
         <!--Logo-->
-        <Image Source="C:\Users\ADMIN\Documents\GitHub\EyewareManagementWPF\EyewearManagementSystem\EyewearManagementSystemWPF\assest/LOGO.png"
+        <Image Source="/assest/LOGO.png"
                Width="150"
                HorizontalAlignment="Left"
                VerticalAlignment="Top"

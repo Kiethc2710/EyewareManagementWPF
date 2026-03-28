@@ -1,20 +1,21 @@
 ﻿
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Models;
+using DAL.Repositories;
 
-namespace BLL
+namespace BLL.Services
 {
     public class Staff_Service
     {
-        private readonly DAL.AccountRepo _accountRepo;
+        private readonly AccountRepo _accountRepo;
 
         public Staff_Service()
         {
-            _accountRepo = new DAL.AccountRepo();
+            _accountRepo = new AccountRepo();
         }
 
         public Account? Authentication(string username, string password)
