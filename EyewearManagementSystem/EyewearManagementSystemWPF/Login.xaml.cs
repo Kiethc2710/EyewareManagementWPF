@@ -56,7 +56,7 @@ namespace EyewearManagementSystemWPF
                 txtStatus.Text = "Invalid username or password.";
                 return;
             }
-            var main = new MainWindow();
+            var main = new MainWindow(account.AccountId);
             main.Show();
             this.Close();
         }

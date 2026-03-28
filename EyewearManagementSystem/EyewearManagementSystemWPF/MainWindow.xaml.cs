@@ -20,17 +20,19 @@ namespace EyewearManagementSystemWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly int _currentAccountId;
         private readonly ProductService _productService;
         private readonly CustomerService _customerService;
         private readonly InvoiceService _invoiceService;
         ObservableCollection<InvoiceDetail> invoiceDetails = new ObservableCollection<InvoiceDetail>();
-        public MainWindow()
+        public MainWindow(int accountID)
         {
             InitializeComponent();
             _productService = new ProductService();
             _customerService = new CustomerService();
             _invoiceService = new InvoiceService();
-            dgProductInvoice.ItemsSource = invoiceDetails; // 🔥 bind list
+            _currentAccountId = accountID;
+            dgProductInvoice.ItemsSource = invoiceDetails; 
             Window_Loaded();
            
         }
@@ -95,10 +97,7 @@ namespace EyewearManagementSystemWPF
             txtTotal.Text = "";
         }
 
-        private void Button_Click_CustomerHome(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
             // 1. Xác định dòng (item) nào đang được click
@@ -162,28 +161,31 @@ namespace EyewearManagementSystemWPF
         }
         private void Button_Click_CreateInvoice_Click(object sender, RoutedEventArgs e)
         {
+            // 1. Kiểm tra giỏ hàng trống
             if (invoiceDetails.Count == 0)
             {
-                MessageBox.Show("Chưa có sản phẩm!");
+                MessageBox.Show("Vui lòng chọn ít nhất một sản phẩm!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
+            // 2. Kiểm tra thông tin khách hàng
             var customer = _customerService.SearchByPhone(txtPhoneSearch.Text);
-
             if (customer == null)
             {
-                MessageBox.Show("Không tìm thấy khách hàng!");
+                MessageBox.Show("Vui lòng nhập số điện thoại khách hàng hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
+            // 3. Khởi tạo đối tượng hóa đơn (Invoice)
             var invoice = new Invoice
             {
                 CreatedDate = DateTime.Now,
                 CustomerId = customer.CustomerId,
-                AccountId = 1, // 🔥 tạm fix (sau này lấy login)
+                AccountId = _currentAccountId, // Tạm thời fix, sau này lấy từ thông tin đăng nhập
 
                 TotalAmount = invoiceDetails.Sum(x => (x.Quantity ?? 0) * (x.Price ?? 0)),
 
+                // Chuyển đổi từ danh sách hiển thị sang danh sách chi tiết lưu DB
                 InvoiceDetails = invoiceDetails.Select(x => new InvoiceDetail
                 {
                     ProductId = x.ProductId,
@@ -192,11 +194,25 @@ namespace EyewearManagementSystemWPF
                 }).ToList()
             };
 
-            _invoiceService.CreateInvoice(invoice);
+            // 4. Gọi BLL xử lý và nhận kết quả trả về
+            string result = _invoiceService.CreateInvoice(invoice);
 
-            MessageBox.Show("Tạo hóa đơn thành công!");
+            // 5. Kiểm tra kết quả
+            if (result == "Success")
+            {
+                MessageBox.Show("Tạo hóa đơn và cập nhật kho hàng thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            ClearForm();
+                // Làm sạch form để tiếp tục bán đơn tiếp theo
+                ClearForm();
+
+                // QUAN TRỌNG: Load lại danh sách sản phẩm để cập nhật số lượng mới trên UI
+                cbProduct.ItemsSource = _productService.GetAllProducts();
+            }
+            else
+            {
+                // Hiển thị lỗi từ BLL (Ví dụ: "Sản phẩm A không đủ hàng")
+                MessageBox.Show(result, "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void Button_Click_OrderList(object sender, RoutedEventArgs e)
@@ -205,6 +221,11 @@ namespace EyewearManagementSystemWPF
         }
 
         private void Button_Click_ProductHome(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_CustomerHome(object sender, RoutedEventArgs e)
         {
 
         }

@@ -1,4 +1,5 @@
 ﻿using DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,13 @@ namespace DAL.Repositories
         public List<Product> GetAllProducts()
         {
             return _context.Products.ToList();
+        }
+
+
+        public Product GetProductById(int productId)
+        {
+            // Thêm AsNoTracking() để tránh việc EF tự cập nhật dữ liệu khi check tồn kho
+            return _context.Products.AsNoTracking().FirstOrDefault(p => p.ProductId == productId);
         }
     }
 }
