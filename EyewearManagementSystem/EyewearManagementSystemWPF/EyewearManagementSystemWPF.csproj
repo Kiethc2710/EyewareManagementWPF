@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assest\Login.png" />
+    <None Remove="assest\LOGO.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BAL\BLL.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
   </ItemGroup>
@@ -20,7 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="assest\" />
+    <Resource Include="assest\Login.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assest\LOGO.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
