@@ -26,7 +26,7 @@
                     </Button.Resources>
                 </Button>
 
-                <Button Content="📦 Product Home" Width="140" Height="40" Background="#f39c12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0" Cursor="Hand" Click="Button_Click_ProductHome">
+                <Button Content="📦 Product Home" Width="160" Height="40" Background="#f39c12" Foreground="White" FontWeight="Bold" Margin="0,0,10,0" Cursor="Hand" Click="Button_Click_ProductHome">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="5"/>
@@ -178,67 +178,6 @@
                         <TextBox x:Name="txtCustomerName" Grid.Row="2" Grid.Column="1" Height="35" IsReadOnly="True" Background="#f9f9f9" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
                     </Grid>
                 </StackPanel>
-            </Border>
-
-            <!-- PRODUCT MANAGEMENT VIEW (Added) -->
-            <Border x:Name="ProductManagementView" Grid.Row="1" Grid.RowSpan="2" Background="White" CornerRadius="10" Padding="15" Margin="0,0,10,10" BorderBrush="#dcdde1" BorderThickness="1" Visibility="Collapsed">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="📦 Product Management" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
-
-                    <!-- Inputs -->
-                    <Grid Grid.Row="1" Margin="0,0,0,15">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Text="Product Name:" Grid.Row="0" Grid.Column="0" Margin="5" VerticalAlignment="Center"/>
-                        <TextBox x:Name="txtManProductName" Grid.Row="0" Grid.Column="1" Margin="5" Padding="5"/>
-
-                        <TextBlock Text="Brand:" Grid.Row="1" Grid.Column="0" Margin="5" VerticalAlignment="Center"/>
-                        <TextBox x:Name="txtManBrand" Grid.Row="1" Grid.Column="1" Margin="5" Padding="5"/>
-
-                        <TextBlock Text="Price:" Grid.Row="0" Grid.Column="2" Margin="5" VerticalAlignment="Center"/>
-                        <TextBox x:Name="txtManPrice" Grid.Row="0" Grid.Column="3" Margin="5" Padding="5"/>
-
-                        <TextBlock Text="Quantity:" Grid.Row="1" Grid.Column="2" Margin="5" VerticalAlignment="Center"/>
-                        <TextBox x:Name="txtManQuantity" Grid.Row="1" Grid.Column="3" Margin="5" Padding="5"/>
-
-                        <TextBlock Text="Category:" Grid.Row="2" Grid.Column="0" Margin="5" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="cboManCategory" Grid.Row="2" Grid.Column="1" Margin="5" Height="30" DisplayMemberPath="CategoryName" SelectedValuePath="CategoryId"/>
-
-                        <StackPanel Grid.Row="3" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
-                            <Button Content="Add" Width="80" Height="30" Margin="10,0" Background="#2ecc71" Foreground="White" FontWeight="Bold" Click="btnManAdd_Click"/>
-                            <Button Content="Update" Width="80" Height="30" Margin="10,0" Background="#f39c12" Foreground="White" FontWeight="Bold" Click="btnManUpdate_Click"/>
-                            <Button Content="Delete" Width="80" Height="30" Margin="10,0" Background="#e74c3c" Foreground="White" FontWeight="Bold" Click="btnManDelete_Click"/>
-                        </StackPanel>
-                    </Grid>
-
-                    <!-- DataGrid -->
-                    <DataGrid x:Name="dgManProducts" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="dgManProducts_SelectionChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" Width="*"/>
-                            <DataGridTextColumn Header="Brand" Binding="{Binding Brand}" Width="*"/>
-                            <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="*"/>
-                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="*"/>
-                            <DataGridTextColumn Header="Category" Binding="{Binding Category.CategoryName}" Width="*"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
             </Border>
         </Grid>
 

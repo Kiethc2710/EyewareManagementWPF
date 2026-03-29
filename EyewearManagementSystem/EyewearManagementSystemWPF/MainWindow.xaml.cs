@@ -1,17 +1,8 @@
 ﻿using BLL.Services;
 using DAL.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EyewearManagementSystemWPF
 {
@@ -32,20 +23,13 @@ namespace EyewearManagementSystemWPF
             _customerService = new CustomerService();
             _invoiceService = new InvoiceService();
             _currentAccountId = accountID;
-            dgProductInvoice.ItemsSource = invoiceDetails; 
+            dgProductInvoice.ItemsSource = invoiceDetails;
             Window_Loaded();
-           
+
         }
         private void Window_Loaded()
         {
             cbProduct.ItemsSource = _productService.GetAllProducts();
-            LoadManData();
-        }
-
-        private void LoadManData()
-        {
-            cboManCategory.ItemsSource = _productService.GetCategories();
-            dgManProducts.ItemsSource = _productService.GetAllProducts();
         }
 
         private void Button_Click_AddProduct(object sender, RoutedEventArgs e)
@@ -104,7 +88,7 @@ namespace EyewearManagementSystemWPF
             txtTotal.Text = "";
         }
 
-       
+
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
             // 1. Xác định dòng (item) nào đang được click
@@ -152,7 +136,7 @@ namespace EyewearManagementSystemWPF
             if (customer != null)
             {
                 txtCustomerName.Text = customer.FullName;
-               
+
             }
             else
             {
@@ -226,163 +210,27 @@ namespace EyewearManagementSystemWPF
         {
             InvoiceSelectionBorder.Visibility = Visibility.Visible;
             CustomerInfoBorder.Visibility = Visibility.Visible;
-            ProductManagementView.Visibility = Visibility.Collapsed;
-        }
-
-        private void Button_Click_ProductHome(object sender, RoutedEventArgs e)
-        {
-            InvoiceSelectionBorder.Visibility = Visibility.Collapsed;
-            CustomerInfoBorder.Visibility = Visibility.Collapsed;
-            ProductManagementView.Visibility = Visibility.Visible;
-            LoadManData();
-        }
-
-        private void Button_Click_CustomerHome(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void dgManProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (dgManProducts.SelectedItem is Product selected)
-            {
-                txtManProductName.Text = selected.ProductName;
-                txtManBrand.Text = selected.Brand;
-                txtManPrice.Text = selected.Price?.ToString("G29");
-                txtManQuantity.Text = selected.Quantity?.ToString();
-                cboManCategory.SelectedValue = selected.CategoryId;
-            }
-        }
-
-        private void btnManAdd_Click(object sender, RoutedEventArgs e)
-        {
-            var resDialog = MessageBox.Show("Bạn có chắc muốn thêm sản phẩm không?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (resDialog == MessageBoxResult.Yes)
-            {
-                if (string.IsNullOrWhiteSpace(txtManProductName.Text))
-                {
-                    MessageBox.Show("Tên sản phẩm không được để trống", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                if (!decimal.TryParse(txtManPrice.Text, out decimal p) || p <= 0)
-                {
-                    MessageBox.Show("Giá phải lớn hơn 0", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                if (!int.TryParse(txtManQuantity.Text, out int q) || q < 0)
-                {
-                    MessageBox.Show("Số lượng phải >= 0", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                if (cboManCategory.SelectedValue == null)
-                {
-                    MessageBox.Show("Vui lòng chọn danh mục", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                var product = new Product
-                {
-                    ProductName = txtManProductName.Text.Trim(),
-                    Brand = txtManBrand.Text,
-                    Price = p,
-                    Quantity = q,
-                    CategoryId = (int?)cboManCategory.SelectedValue
-                };
-
-                string result = _productService.AddProduct(product);
-                if (result == "OK")
-                {
-                    MessageBox.Show("Thêm thành công.");
-                    LoadManData();
-                    cbProduct.ItemsSource = _productService.GetAllProducts();
-                }
-                else
-                {
-                    MessageBox.Show(result, "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-            }
-        }
-
-        private void btnManUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            if (dgManProducts.SelectedItem is Product selected)
-            {
-                var resDialog = MessageBox.Show("Bạn có chắc muốn cập nhật sản phẩm không?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (resDialog == MessageBoxResult.Yes)
-                {
-                    if (string.IsNullOrWhiteSpace(txtManProductName.Text))
-                    {
-                        MessageBox.Show("Tên sản phẩm không được để trống", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-                    if (!decimal.TryParse(txtManPrice.Text, out decimal p) || p <= 0)
-                    {
-                        MessageBox.Show("Giá phải lớn hơn 0", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-                    if (!int.TryParse(txtManQuantity.Text, out int q) || q < 0)
-                    {
-                        MessageBox.Show("Số lượng phải >= 0", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-                    if (cboManCategory.SelectedValue == null)
-                    {
-                        MessageBox.Show("Vui lòng chọn danh mục", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-
-                    selected.ProductName = txtManProductName.Text.Trim();
-                    selected.Brand = txtManBrand.Text;
-                    selected.Price = p;
-                    selected.Quantity = q;
-                    selected.CategoryId = (int?)cboManCategory.SelectedValue;
-
-                    string result = _productService.UpdateProduct(selected);
-                    if (result == "OK")
-                    {
-                        MessageBox.Show("Cập nhật thành công.");
-                        LoadManData();
-                        cbProduct.ItemsSource = _productService.GetAllProducts();
-                        dgProductInvoice.Items.Refresh();
-                    }
-                    else
-                    {
-                        MessageBox.Show(result, "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    }
-                }
-            }
-        }
-
-        private void btnManDelete_Click(object sender, RoutedEventArgs e)
-        {
-            if (dgManProducts.SelectedItem is Product selected)
-            {
-                var resDialog = MessageBox.Show("Bạn có chắc muốn xóa sản phẩm không?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (resDialog == MessageBoxResult.Yes)
-                {
-                    string result = _productService.DeleteProduct(selected.ProductId);
-                    if (result == "FK_ERROR")
-                    {
-                        MessageBox.Show("Không thể xóa sản phẩm vì đã tồn tại trong hóa đơn!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    else if (result == "OK")
-                    {
-                        MessageBox.Show("Xóa thành công.");
-                        LoadManData();
-                        cbProduct.ItemsSource = _productService.GetAllProducts();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Lỗi khi xóa.");
-                    }
-                }
-            }
         }
 
         private void Button_Click_OpenInvoiceManagement(object sender, RoutedEventArgs e)
         {
             var window = new InvoiceManagementWindow();
             window.ShowDialog();
+        }
+
+        private void Button_Click_ProductHome(object sender, RoutedEventArgs e)
+        {
+            var win = new ProductManagerWindow();
+            win.ShowDialog();
+
+            // Reload product combo box when returned
+            cbProduct.ItemsSource = _productService.GetAllProducts();
+            dgProductInvoice.Items.Refresh();
+        }
+
+        private void Button_Click_CustomerHome(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
