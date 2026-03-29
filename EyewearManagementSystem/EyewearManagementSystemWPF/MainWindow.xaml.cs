@@ -1,17 +1,8 @@
 ﻿using BLL.Services;
 using DAL.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EyewearManagementSystemWPF
 {
@@ -32,9 +23,9 @@ namespace EyewearManagementSystemWPF
             _customerService = new CustomerService();
             _invoiceService = new InvoiceService();
             _currentAccountId = accountID;
-            dgProductInvoice.ItemsSource = invoiceDetails; 
+            dgProductInvoice.ItemsSource = invoiceDetails;
             Window_Loaded();
-           
+
         }
         private void Window_Loaded()
         {
@@ -97,7 +88,7 @@ namespace EyewearManagementSystemWPF
             txtTotal.Text = "";
         }
 
-       
+
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
             // 1. Xác định dòng (item) nào đang được click
@@ -145,7 +136,7 @@ namespace EyewearManagementSystemWPF
             if (customer != null)
             {
                 txtCustomerName.Text = customer.FullName;
-               
+
             }
             else
             {
@@ -221,6 +212,11 @@ namespace EyewearManagementSystemWPF
             CustomerInfoBorder.Visibility = Visibility.Visible;
         }
 
+        private void Button_Click_OpenInvoiceManagement(object sender, RoutedEventArgs e)
+        {
+            // Add logic here to open invoice management window
+        }
+
         private void Button_Click_ProductHome(object sender, RoutedEventArgs e)
         {
             var win = new ProductManagerWindow();
@@ -235,5 +231,6 @@ namespace EyewearManagementSystemWPF
         {
 
         }
+
     }
 }

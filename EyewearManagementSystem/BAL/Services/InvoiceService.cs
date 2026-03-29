@@ -1,5 +1,6 @@
 ﻿using DAL.Models;
 using DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
@@ -43,6 +44,16 @@ namespace BLL.Services
             {
                 return "Lỗi khi lưu hóa đơn vào Database";
             }
+        }
+
+        public List<Invoice> GetAllInvoices()
+        {
+            return _invoiceRepo.GetAllInvoices();
+        }
+
+        public List<Invoice> SearchInvoices(string keyword, string type)
+        {
+            return _invoiceRepo.SearchInvoices(keyword, type);
         }
     }
 }

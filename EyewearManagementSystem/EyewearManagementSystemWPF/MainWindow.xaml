@@ -34,7 +34,15 @@
                     </Button.Resources>
                 </Button>
 
-                <Button Content="👤 + Customer" Width="130" Height="40" Background="#2ecc71" Foreground="White" FontWeight="Bold" Cursor="Hand" Click="Button_Click_CustomerHome">
+                <Button Content="👤 + Customer" Width="130" Height="40" Background="#2ecc71" Foreground="White" FontWeight="Bold" Margin="0,0,10,0" Cursor="Hand" Click="Button_Click_CustomerHome">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button Content="📑 Invoice Management" Width="170" Height="40" Background="#3498db" Foreground="White" FontWeight="Bold" Cursor="Hand" Click="Button_Click_OpenInvoiceManagement">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="5"/>

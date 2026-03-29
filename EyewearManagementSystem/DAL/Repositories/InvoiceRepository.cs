@@ -1,6 +1,8 @@
 ﻿using DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DAL.Repositories
 {
@@ -51,5 +53,50 @@ namespace DAL.Repositories
                 }
             }
         }
+
+        public List<Invoice> GetAllInvoices()
+        {
+            return _context.Invoices
+                .Include(x => x.Customer)
+                .Include(X => X.Account)
+                .Include(x => x.InvoiceDetails)
+                    .ThenInclude(d => d.Product)
+                .OrderByDescending(x => x.CreatedDate)
+                .ToList();
+        }
+
+        public List<Invoice> SearchInvoices(string keyword, string type)
+        {
+            var query = _context.Invoices
+                .Include(x => x.Customer)
+                .Include(x => x.Account)
+                .Include(x => x.InvoiceDetails)
+                    .ThenInclude(d => d.Product)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {   
+
+                switch (type)
+                {
+                    case "Phone":
+                        query = query.Where(x => x.Customer.Phone.ToLower().Contains(keyword));
+                        break;
+
+                    case "Customer Name":
+                        query = query.Where(x => x.Customer.FullName.ToLower().Contains(keyword.ToLower()));
+                        break;
+
+                    case "Staff":
+                        query = query.Where(x => x.Account.Username.ToLower().Contains(keyword.ToLower()));
+                        break;
+                }
+            }
+
+            return query
+                .OrderByDescending(x => x.CreatedDate)
+                .ToList();
+        }
+
     }
 }
