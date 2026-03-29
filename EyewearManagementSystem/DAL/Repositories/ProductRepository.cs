@@ -16,9 +16,40 @@ namespace DAL.Repositories
         }
         public List<Product> GetAllProducts()
         {
-            return _context.Products.ToList();
+            return _context.Products.Include(p => p.Category).ToList();
         }
 
+        public void AddProduct(Product product)
+        {
+            _context.Products.Add(product);
+            _context.SaveChanges();
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            _context.Products.Update(product);
+            _context.SaveChanges();
+        }
+
+        public void DeleteProduct(int productId)
+        {
+            var trackedProduct = _context.Products.Find(productId);
+            if (trackedProduct != null)
+            {
+                _context.Products.Remove(trackedProduct);
+                _context.SaveChanges();
+            }
+        }
+
+        public bool IsUsedInInvoice(int productId)
+        {
+            return _context.InvoiceDetails.Any(i => i.ProductId == productId);
+        }
+
+        public List<Category> GetCategories()
+        {
+            return _context.Categories.ToList();
+        }
 
         public Product GetProductById(int productId)
         {

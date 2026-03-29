@@ -39,7 +39,6 @@ namespace EyewearManagementSystemWPF
                 txtStatus.Text = "Please enter both username and password.";
                 return;
             }
-
             Account? account;
             try
             {
