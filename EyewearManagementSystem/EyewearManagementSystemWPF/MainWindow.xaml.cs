@@ -378,5 +378,11 @@ namespace EyewearManagementSystemWPF
                 }
             }
         }
+
+        private void Button_Click_OpenInvoiceManagement(object sender, RoutedEventArgs e)
+        {
+            var window = new InvoiceManagementWindow();
+            window.ShowDialog();
+        }
     }
 }

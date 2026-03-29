@@ -1,0 +1,152 @@
+﻿<Window x:Class="EyewearManagementSystemWPF.InvoiceManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Invoice Management" Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="20" Background="#f5f6fa">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1.2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- LEFT -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- SEARCH -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBox x:Name="txtSearch"
+                         Width="250"
+                         Height="35"
+                         Margin="0,0,10,0"
+                         VerticalContentAlignment="Center"/>
+
+                <ComboBox x:Name="cbSearchType" Width="150" Height="35" Margin="0,0,10,0" SelectedIndex="0" VerticalContentAlignment="Center">
+                    <ComboBoxItem Content="Phone"/>
+                    <ComboBoxItem Content="Customer Name"/>
+                    <ComboBoxItem Content="Staff"/>
+                </ComboBox>
+
+                <Button Content="🔍 Search"
+                        Width="100"
+                        Background="#3498db"
+                        Foreground="White"
+                        Click="BtnSearch_Click"/>
+            </StackPanel>
+
+            <!-- LIST -->
+            <DataGrid x:Name="dgInvoices"
+                      Grid.Row="1"
+                      AutoGenerateColumns="False"
+                      SelectionChanged="dgInvoices_SelectionChanged"
+                      RowHeight="40"
+                      AlternatingRowBackground="#f8f9fa">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding InvoiceId}" Width="50"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding CreatedDate}" Width="150"/>
+                    <DataGridTextColumn Header="Customer" Binding="{Binding Customer.FullName}" Width="*"/>
+                    <DataGridTextColumn Header="Phone" Binding="{Binding Customer.Phone}" Width="120"/>
+                    <DataGridTextColumn Header="Staff" Binding="{Binding Account.Username}" Width="120"/>
+                    <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat={}{0:N0} đ}" Width="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!-- RIGHT -->
+        <!-- RIGHT -->
+        <Border Grid.Column="1" Background="White" CornerRadius="10" Padding="15">
+            <StackPanel>
+
+                <!-- TITLE -->
+                <TextBlock Text="🧾 Invoice Preview"
+                   FontSize="18"
+                   FontWeight="Bold"
+                   Margin="0,0,0,10"/>
+
+                <!-- CUSTOMER INFO -->
+                <Border Background="#f8f9fa" Padding="10" CornerRadius="5" Margin="0,0,0,10">
+                    <StackPanel>
+                        <TextBlock Text="{Binding SelectedItem.Customer.FullName, ElementName=dgInvoices}" 
+                           FontWeight="Bold"/>
+
+                        <TextBlock Text="{Binding SelectedItem.Customer.Phone, ElementName=dgInvoices}"/>
+
+                        <TextBlock Text="{Binding SelectedItem.Account.Username, ElementName=dgInvoices}" 
+                           Foreground="#7f8c8d"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- HEADER -->
+                <Grid Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Item" FontSize="12" Foreground="#7f8c8d"/>
+                    <TextBlock Text="Qty" Grid.Column="1" HorizontalAlignment="Center" FontSize="12" Foreground="#7f8c8d"/>
+                    <TextBlock Text="Price" Grid.Column="2" HorizontalAlignment="Right" FontSize="12" Foreground="#7f8c8d"/>
+                </Grid>
+
+                <Separator Margin="0,5"/>
+
+                <!-- ITEMS -->
+                <ItemsControl x:Name="icDetails">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Product -->
+                                <TextBlock Text="{Binding Product.ProductName}"
+                                   TextTrimming="CharacterEllipsis"
+                                   VerticalAlignment="Center"/>
+
+                                <!-- Quantity -->
+                                <TextBlock Text="{Binding Quantity}"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                                <!-- Price -->
+                                <TextBlock Text="{Binding Price, StringFormat={}{0:N0} đ}"
+                                   Grid.Column="2"
+                                   HorizontalAlignment="Right"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Separator Margin="10"/>
+
+                <!-- TOTAL -->
+                <Border Background="#f1f2f6" CornerRadius="8" Padding="10">
+                    <DockPanel LastChildFill="False">
+                        <TextBlock Text="Total Amount:"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center" DockPanel.Dock="Left"/>
+
+                        <TextBlock Text="{Binding SelectedItem.TotalAmount, ElementName=dgInvoices, StringFormat={}{0:N0} đ}"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="Red"
+                           DockPanel.Dock="Right"/>
+                    </DockPanel>
+                </Border>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
