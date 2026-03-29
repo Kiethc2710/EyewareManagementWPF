@@ -24,6 +24,42 @@ namespace BLL.Services
             return _productRepository.GetCategories();
         }
 
+        public string AddCategory(string categoryName)
+        {
+            if (string.IsNullOrWhiteSpace(categoryName)) return "Tên danh mục không được để trống";
+            var exists = _productRepository.GetCategories()
+                .Any(x => string.Equals(x.CategoryName, categoryName, StringComparison.OrdinalIgnoreCase));
+            if (exists) return "Tên danh mục không được trùng";
+
+            try
+            {
+                _productRepository.AddCategory(new Category { CategoryName = categoryName });
+                return "OK";
+            }
+            catch (Exception)
+            {
+                return "Lỗi khi thêm danh mục";
+            }
+        }
+
+        public string DeleteCategory(int categoryId)
+        {
+            if (_productRepository.IsCategoryUsed(categoryId))
+            {
+                return "Không thể xóa danh mục này vì đang có sản phẩm thuộc danh mục!";
+            }
+
+            try
+            {
+                _productRepository.DeleteCategory(categoryId);
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "Lỗi khi xóa danh mục: " + ex.Message;
+            }
+        }
+
         public string AddProduct(Product product)
         {
             if (string.IsNullOrWhiteSpace(product.ProductName)) return "Tên sản phẩm không được để trống";

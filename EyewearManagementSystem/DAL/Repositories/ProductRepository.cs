@@ -51,6 +51,27 @@ namespace DAL.Repositories
             return _context.Categories.ToList();
         }
 
+        public void AddCategory(Category category)
+        {
+            _context.Categories.Add(category);
+            _context.SaveChanges();
+        }
+
+        public bool IsCategoryUsed(int categoryId)
+        {
+            return _context.Products.Any(p => p.CategoryId == categoryId);
+        }
+
+        public void DeleteCategory(int categoryId)
+        {
+            var cat = _context.Categories.Find(categoryId);
+            if (cat != null)
+            {
+                _context.Categories.Remove(cat);
+                _context.SaveChanges();
+            }
+        }
+
         public Product GetProductById(int productId)
         {
             // Thêm AsNoTracking() để tránh việc EF tự cập nhật dữ liệu khi check tồn kho
