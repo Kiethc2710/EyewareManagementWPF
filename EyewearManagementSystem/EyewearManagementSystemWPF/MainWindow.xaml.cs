@@ -214,7 +214,8 @@ namespace EyewearManagementSystemWPF
 
         private void Button_Click_OpenInvoiceManagement(object sender, RoutedEventArgs e)
         {
-            // Add logic here to open invoice management window
+            var window = new InvoiceManagementWindow();
+            window.ShowDialog();
         }
 
         private void Button_Click_ProductHome(object sender, RoutedEventArgs e)
@@ -231,6 +232,5 @@ namespace EyewearManagementSystemWPF
         {
 
         }
-
     }
 }
