@@ -22,7 +22,45 @@ namespace BLL.Services
             }
             public Customer SearchByPhone(string phone)
             {
-                return _customerRepo.SearchByPhone(phone);
+                if (string.IsNullOrWhiteSpace(phone)) return null;
+                return _customerRepo.SearchByPhone(phone.Trim());
+            }
+
+            public List<Customer> SearchCustomersByPhone(string phone)
+            {
+                if (string.IsNullOrWhiteSpace(phone))
+                    return GetAllCustomers();
+                return _customerRepo.SearchCustomersByPhone(phone.Trim());
+            }
+
+            public string AddCustomer(Customer customer)
+            {
+                _customerRepo.AddCustomer(customer);
+                return "Success";
+            }
+
+            public string UpdateCustomer(Customer customer)
+            {
+                _customerRepo.UpdateCustomer(customer);
+                return "Success";
+            }
+
+            public string DeleteCustomer(int customerId)
+            {
+                try
+                {
+                    if (_customerRepo.HasInvoices(customerId))
+                    {
+                        return "Không thể xóa khách hàng này vì khách hàng đã có hóa đơn trên hệ thống.";
+                    }
+
+                    _customerRepo.DeleteCustomer(customerId);
+                    return "Success";
+                }
+                catch (Exception ex)
+                {
+                    return "Lỗi: " + ex.Message;
+                }
             }
     }
 }

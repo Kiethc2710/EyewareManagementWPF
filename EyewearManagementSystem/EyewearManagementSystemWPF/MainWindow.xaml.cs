@@ -230,7 +230,8 @@ namespace EyewearManagementSystemWPF
 
         private void Button_Click_CustomerHome(object sender, RoutedEventArgs e)
         {
-
+            var window = new CustomerManagement();
+            window.ShowDialog();
         }
     }
 }
