@@ -1,6 +1,5 @@
 using BLL.Services;
 using DAL.Models;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,7 +7,7 @@ namespace EyewearManagementSystemWPF
 {
     public partial class ProductManagerWindow : Window
     {
-        
+
         private readonly ProductService _productService;
 
         public ProductManagerWindow()
@@ -49,24 +48,40 @@ namespace EyewearManagementSystemWPF
         {
             if (cboManCategory.SelectedItem is Category selectedCat)
             {
-                var res = MessageBox.Show($"Bạn có chắc muốn xóa danh mục '{selectedCat.CategoryName}' không?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var res = MessageBox.Show(
+                    $"Bạn có chắc muốn xóa danh mục '{selectedCat.CategoryName}' không?",
+                    "Xác nhận",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
                 if (res == MessageBoxResult.Yes)
                 {
                     string result = _productService.DeleteCategory(selectedCat.CategoryId);
+
                     if (result == "OK")
                     {
-                        MessageBox.Show("Xóa danh mục thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Xóa danh mục thành công.",
+                            "Thành công",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+
                         cboManCategory.ItemsSource = _productService.GetCategories();
                     }
                     else
                     {
-                        MessageBox.Show(result, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(result,
+                            "Lỗi",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Vui lòng chọn danh mục để xóa", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Vui lòng chọn danh mục để xóa",
+                    "Cảnh báo",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 

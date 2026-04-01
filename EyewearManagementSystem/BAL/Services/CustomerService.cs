@@ -45,6 +45,11 @@ namespace BLL.Services
                 return "Success";
             }
 
+            public bool HasInvoices(int customerId)
+            {
+                return _customerRepo.HasInvoices(customerId);
+            }
+
             public string DeleteCustomer(int customerId)
             {
                 try
