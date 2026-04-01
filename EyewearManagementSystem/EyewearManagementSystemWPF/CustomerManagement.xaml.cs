@@ -150,10 +150,18 @@ namespace EyewearManagementSystemWPF
                 return;
             }
 
+            int customerId = int.Parse(txtCustomerId.Text);
+
+            // Chặn ngay lập tức nếu có khóa ngoại (đã có hóa đơn) trước khi hỏi xác nhận
+            if (_customerService.HasInvoices(customerId))
+            {
+                MessageBox.Show("Không thể xóa khách hàng này vì khách hàng đã có hóa đơn trên hệ thống.", "Không thể xóa", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var confirm = MessageBox.Show("Bạn có chắc chắn muốn xóa khách hàng này không?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (confirm == MessageBoxResult.Yes)
             {
-                int customerId = int.Parse(txtCustomerId.Text);
                 string result = _customerService.DeleteCustomer(customerId);
 
                 if (result == "Success")
@@ -164,7 +172,7 @@ namespace EyewearManagementSystemWPF
                 }
                 else
                 {
-                    MessageBox.Show(result, "Không thể xóa", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(result, "Lỗi khi xóa", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
